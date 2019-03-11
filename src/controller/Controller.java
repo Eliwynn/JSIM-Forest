@@ -1,13 +1,23 @@
 package controller;
 
-import application.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import application.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 
 public class Controller {
 
@@ -18,7 +28,7 @@ public class Controller {
 	
 	@FXML
 	public void initialize() {
-		this.butbut.setText("test");
+		this.butbut.setText("Patrick fdp");
 		this.gridgrid.setGridLinesVisible(true);
 		setGrid();
 	}
@@ -31,50 +41,51 @@ public class Controller {
 	@FXML
 	public void setGrid() {
 		
-//		gridgrid.add(new Label("T"), 0, 0);
-//        gridgrid.add(new Label("E"), 0, 1);
-//        gridgrid.add(new Label("S"), 0, 2);
-//        gridgrid.add(new Label("T"), 0, 3);
-		
-		int minHeight = 50;
+		int minHeight = 0;
         int preferredHeight = 100;
         int maxHeight = 110;
+        
+        int rows = 20;
+        int columns = 20;
 		
 		RowConstraints con = new RowConstraints(minHeight, preferredHeight, maxHeight);
 		ColumnConstraints col = new ColumnConstraints(minHeight, preferredHeight, maxHeight);
 		
+		Pane pane1 = new Pane();
+		Pane pane2 = new Pane();
+		Background bg = new Background(new BackgroundFill(Color.DARKGREEN, null, null));
+		pane1.setBackground(bg);
+		pane2.setBackground(bg);
+		
 		gridgrid.getRowConstraints().remove(0);
 		
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 0; i <= rows; i++) {
 			gridgrid.getRowConstraints().add(con);
 		}
 		
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 0; i <= columns-1; i++) {
 			gridgrid.getColumnConstraints().add(col);
 		}
+		
+		gridgrid.add(pane1, 0, 0);
+		gridgrid.add(pane2, 5, 6);
 
 		
-//        for (int i = 0; i <= 7; i++) {
-//            RowConstraints con = new RowConstraints();
-//            // Here we set the pref height of the row, but you could also use .setPercentHeight(double) if you don't know much space you will need for each label.
-//            con.setPrefHeight(20);
-//            gridgrid.getRowConstraints().add(con);
-//        }
-        
-//		final int numCols = 10 ;
-//        final int numRows = 10 ;
-//        
-//        for (int i = 0; i < numCols; i++) {
-//            ColumnConstraints colConst = new ColumnConstraints();
-//            colConst.setPercentWidth(100.0 / numCols);
-//            gridgrid.getColumnConstraints().add(colConst);
-//        }
-//        for (int i = 0; i < numRows; i++) {
-//            RowConstraints rowConst = new RowConstraints();
-//            rowConst.setPercentHeight(100.0 / numRows);
-//            gridgrid.getRowConstraints().add(rowConst); 
-//            
-//        }
 	}
+	
+	@FXML
+    public void mouseEntered(MouseEvent e) {
+        Node source = (Node)e.getSource() ;
+        Integer colIndex = GridPane.getColumnIndex(source);
+        //Integer rowIndex = GridPane.getRowIndex(source);
+        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+		System.out.println(colIndex.intValue());
+    }
+	
+	@FXML
+	public void testButton() {
+		System.out.printf("Mon cul c'est du polystyrene");
+	}
+	
 	
 }
