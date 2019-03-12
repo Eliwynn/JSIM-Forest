@@ -84,6 +84,10 @@ public class Cell extends Pane {
 		break;
 		case 3:	this.setBackground(bg_darkgreen);
 		break;
+		}
 	}
+	
+	public void resetCell() {
+		this.setType(0);
 	}
 }

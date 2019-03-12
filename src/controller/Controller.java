@@ -39,6 +39,8 @@ public class Controller {
 		setWindow();
 		setGrid();
 		setCells();
+		
+		System.out.println(gridgrid.getChildren());
 
 	}
 
@@ -60,11 +62,11 @@ public class Controller {
         int maxHeight = 110;
         
         this.gridgrid.getChildren().clear();
-		
-        gridgrid.setGridLinesVisible(true);
-        
-		gridgrid.getRowConstraints().remove(0);
-		gridgrid.getColumnConstraints().remove(0);
+
+        this.gridgrid.setGridLinesVisible(true);
+
+        this.gridgrid.getRowConstraints().clear();
+        this.gridgrid.getColumnConstraints().clear();
 		
 		for (int i = 0; i <= rows; i++) {
 			gridgrid.getRowConstraints().add(new RowConstraints(minHeight, preferredHeight, maxHeight));
@@ -99,12 +101,16 @@ public class Controller {
 //        System.out.println(colIndex + " : " + colRow);
     }
 	
-
-	
 	@FXML
 	public void resetButton() {
-		
-		
+		gridgrid.getChildren().clear();
+        setGrid();
+        setCells();
+	}
+	
+	@FXML
+	public void getTypesArray() {
+		int[][] typeArray = new int[rows][columns];
 	}
 	
 	
