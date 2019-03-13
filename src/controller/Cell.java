@@ -17,7 +17,19 @@ import javafx.scene.paint.Color;
 public class Cell extends Pane {
 	
 	private int x;
+	private int y;
+	private int type = 0;
+	private int time = 0;
+	private String touchBounds = "Center";
 	
+	public String getTouchBounds() {
+		return touchBounds;
+	}
+
+	public void setTouchBounds(String touchBounds) {
+		this.touchBounds = touchBounds;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -40,10 +52,19 @@ public class Cell extends Pane {
 
 	public void setType(int type) {
 		this.type = type;
+		
+		if (this.type > 3) {
+    		this.type = 0;
+		}
 	}
-
-	private int y;
-	private int type = 0;
+	
+	public int getTime() {
+		return time;
+	}
+	
+	public void setTime(int time) {
+		this.time = time;
+	}
 	
 	Background bg_white = new Background(new BackgroundFill(Color.WHITE, null, null));
 	Background bg_lightgreen = new Background(new BackgroundFill(Color.LIGHTGREEN, null, null));
@@ -62,19 +83,19 @@ public class Cell extends Pane {
             public void handle(MouseEvent event) {
             	if (type > 2) {
             		type = 0;
-            		changeColor();
+            		changeColor(type);
             		System.out.println("X : " + posX + " Y : " + posY + " Type : " + type);
             	}
             	else {
             		type++;
-            		changeColor();
+            		changeColor(type);
             		System.out.println("X : " + posX + " Y : " + posY + " Type : " + type);
             	}
             }
         });
 	}
 	
-	public void changeColor() {
+	public void changeColor(int type) {
 		switch (type) {
 		case 0:	this.setBackground(bg_white);
 		break;
@@ -87,7 +108,37 @@ public class Cell extends Pane {
 		}
 	}
 	
-	public void resetCell() {
-		this.setType(0);
+	public void grow() {
+		this.type++;
 	}
+	
+	public void checkBoundaries(Cell cell) {
+		
+		if (cell.getX() == 0 && cell.getY() == 19 ) {
+			this.setTouchBounds("BottomLeft");
+		}
+		else if (cell.getX() == 19 && cell.getY() == 19) {
+			this.setTouchBounds("BottomRight");
+		}
+		else if (cell.getX() == 0 && cell.getY() == 0) {
+			this.setTouchBounds("TopLeft");
+		}
+		else if (cell.getX() == 19 && cell.getY() == 0) {
+			this.setTouchBounds("TopRight");
+		}
+		else if (cell.getY() == 0) {
+			this.setTouchBounds("Top");
+		}
+		else if (cell.getY() == 19) {
+			this.setTouchBounds("Bottom");
+		}
+		else if (cell.getX() == 0) {
+			this.setTouchBounds("Left");
+		}
+		else if (cell.getX() == 19) {
+			this.setTouchBounds("Right");
+		}
+			
+	}
+	
 }

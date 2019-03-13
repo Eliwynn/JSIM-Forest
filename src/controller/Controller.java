@@ -29,18 +29,18 @@ public class Controller {
 	public AnchorPane anchor;
 	public GridPane gridgrid;
 	
-    int rows = 20;
-    int columns = 20;
-	
+	public Cell[][] typeArray;
 	
 	@FXML
 	public void initialize() {
 		
 		setWindow();
-		setGrid();
-		setCells();
+		setGrid(20,20);
+		setCells(20,20);
 		
-		System.out.println(gridgrid.getChildren());
+		
+		
+		//System.out.println(gridgrid.getChildren());
 
 	}
 
@@ -55,7 +55,7 @@ public class Controller {
 	}
 	
 	@FXML
-	public void setGrid() {
+	public void setGrid(int rows, int columns) {
 		
 		int minHeight = 0;
         int preferredHeight = 100;
@@ -67,8 +67,10 @@ public class Controller {
 
         this.gridgrid.getRowConstraints().clear();
         this.gridgrid.getColumnConstraints().clear();
+        
+        this.typeArray = new Cell[rows][columns];
 		
-		for (int i = 0; i <= rows; i++) {
+		for (int i = 0; i <= rows-1; i++) {
 			gridgrid.getRowConstraints().add(new RowConstraints(minHeight, preferredHeight, maxHeight));
 		}
 		
@@ -79,11 +81,13 @@ public class Controller {
 	}
 	
 	@FXML
-	public void setCells() {
+	public void setCells(int rows, int columns) {
 		
-		for (int i = 0; i <= rows; i++) {
-			for (int j = 0; j <= columns; j++) {
-				gridgrid.add(new Cell(i,j), i, j);
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				this.typeArray[i][j] = new Cell(i,j);
+				gridgrid.add(this.typeArray[i][j],i,j);
+				this.typeArray[i][j].checkBoundaries(this.typeArray[i][j]);
 			}
 		}
 	}
@@ -104,14 +108,26 @@ public class Controller {
 	@FXML
 	public void resetButton() {
 		gridgrid.getChildren().clear();
-        setGrid();
-        setCells();
+        setGrid(20,20);
+        setCells(20,20);
 	}
 	
 	@FXML
-	public void getTypesArray() {
-		int[][] typeArray = new int[rows][columns];
+	public void checkButton() {
+		
+		for (int i=0;i<20;i++) {
+			for (int j=0;j<20;j++) {
+				if (typeArray[i][j].getType() == 1) {
+					System.out.println(typeArray[i][j].getTouchBounds());
+				}
+				
+				Simulation.checkNeighbors(typeArray,typeArray[i][j],typeArray[i][j].getX(),typeArray[i][j].getY());
+				
+			}
+		}
+		
+		//Simulation.checkNeighbors(typeArray,typeArray[1][1],typeArray[1][1].getX(),typeArray[1][1].getY());
+		
 	}
-	
 	
 }

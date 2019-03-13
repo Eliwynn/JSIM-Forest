@@ -17,5 +17,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Button layoutX="112.0" layoutY="547.0" mnemonicParsing="false" onMouseClicked="#checkButton" text="RunStep" />
    </children>
 </AnchorPane>
