@@ -110,21 +110,31 @@ public class Controller {
 		gridgrid.getChildren().clear();
         setGrid(20,20);
         setCells(20,20);
+        Simulation.setTime(0);
 	}
 	
 	@FXML
 	public void checkButton() {
 		
+		Simulation.addTime();
+		
 		for (int i=0;i<20;i++) {
 			for (int j=0;j<20;j++) {
+				
 				if (typeArray[i][j].getType() == 1) {
 					System.out.println(typeArray[i][j].getTouchBounds());
 				}
 				
 				Simulation.checkNeighbors(typeArray,typeArray[i][j],typeArray[i][j].getX(),typeArray[i][j].getY());
 				
+				System.out.print(Simulation.getTime());
+				
+				
+				//typeArray[i][j].setTime(typeArray[i][j].getTime()+1);
+				//System.out.println(typeArray[i][j].getTime());
 			}
 		}
+		
 		
 		//Simulation.checkNeighbors(typeArray,typeArray[1][1],typeArray[1][1].getX(),typeArray[1][1].getY());
 		

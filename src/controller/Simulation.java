@@ -6,6 +6,29 @@ public final class Simulation {
 
 	static int counter = 0;
 	static int time = 0;
+	static int[] treeCount = new int[4];
+	static int sapling = 0;
+	static int bush = 0;
+	static int tree = 0;
+	static int[][] checkListX = new int[3][3];
+	static int[][] checkListY = new int[3][3];
+	
+	
+	public static int getTime() {
+		return time;
+	}
+
+
+
+	public static void setTime(int time) {
+		Simulation.time = time;
+	}
+	
+	public static void addTime() {
+		Simulation.time = time + 1;
+	}
+
+
 
 	static void checkNeighbors(Cell[][] array, Cell currentCell, int x, int y) {
 
@@ -28,7 +51,6 @@ public final class Simulation {
 
 								currentCell.setType(2);
 								Types.changeColor(currentCell.getType(), currentCell);
-								currentCell.setTime(time++);
 								counter=0;
 
 							}
@@ -59,7 +81,6 @@ public final class Simulation {
 
 								currentCell.setType(2);
 								Types.changeColor(currentCell.getType(), currentCell);
-								currentCell.setTime(time++);
 								counter=0;
 
 							}
@@ -89,7 +110,6 @@ public final class Simulation {
 
 								currentCell.setType(2);
 								Types.changeColor(currentCell.getType(), currentCell);
-								currentCell.setTime(time++);
 								counter=0;
 
 							}
@@ -123,7 +143,6 @@ public final class Simulation {
 
 										currentCell.setType(2);
 										Types.changeColor(currentCell.getType(), currentCell);
-										currentCell.setTime(time++);
 										counter=0;
 
 									}
@@ -166,7 +185,6 @@ public final class Simulation {
 
 										currentCell.setType(2);
 										Types.changeColor(currentCell.getType(), currentCell);
-										currentCell.setTime(time++);
 										counter=0;
 
 									}
@@ -209,7 +227,6 @@ public final class Simulation {
 
 										currentCell.setType(2);
 										Types.changeColor(currentCell.getType(), currentCell);
-										currentCell.setTime(time++);
 										counter=0;
 
 									}
@@ -252,7 +269,6 @@ public final class Simulation {
 
 										currentCell.setType(2);
 										Types.changeColor(currentCell.getType(), currentCell);
-										currentCell.setTime(time++);
 										counter=0;
 
 									}
@@ -291,7 +307,6 @@ public final class Simulation {
 
 								currentCell.setType(2);
 								Types.changeColor(currentCell.getType(), currentCell);
-								currentCell.setTime(time++);
 								counter=0;
 
 							}
@@ -331,7 +346,6 @@ public final class Simulation {
 
 													currentCell.setType(2);
 													Types.changeColor(currentCell.getType(), currentCell);
-													currentCell.setTime(time++);
 													counter=0;
 
 												}
@@ -365,7 +379,68 @@ public final class Simulation {
 					}
 				}
 			}
+			else
+			{
+				// Rien pour le moment
+			}
 		}
+
+		// Sapling birth
+
+//		if (array[x][y].getType() == 0) {
+//			
+//			if (currentCell.getTouchBounds() == "Center") {
+//				
+//				for (int i=-1;i<2;i++) {
+//					for (int j=-1;j<2;j++) {
+//						if (array[x+i][y+j].getType() == 2) {
+//							counter++;
+//							
+//							if (counter >= 2) {
+//								System.out.print(counter);
+//								currentCell.setType(1);
+//								Types.changeColor(currentCell.getType(), currentCell);
+//								currentCell.setTime(time++);
+//								counter = 0;
+//							}
+//						}
+//						
+//					}
+//					
+//				}
+//					
+//			}
+//			
+//
+//		}
+		
+		// Bush to Tree
+		
+		if (array[x][y].getType() == 2) {
+			
+			if (currentCell.getTouchBounds() == "Center") {
+				
+				
+				if (time == 3) {
+					currentCell.setType(3);
+					Types.changeColor(currentCell.getType(), currentCell);
+					
+				}
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }
 
