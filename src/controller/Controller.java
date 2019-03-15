@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -21,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class Controller {
 
@@ -28,19 +31,23 @@ public class Controller {
 	public Button butbut;
 	public AnchorPane anchor;
 	public GridPane gridgrid;
+	public TextField fieldX;
+	public TextField fieldY;
 	
 	public Cell[][] typeArray;
-	
+	public Cell[][] dupeArray;
+	public int gridX = 10;
+	public int gridY = 10;
+
 	@FXML
 	public void initialize() {
 		
 		setWindow();
-		setGrid(20,20);
-		setCells(20,20);
+		setGrid(gridX,gridY);
+		setCells(gridX,gridY);
 		
-		
-		
-		//System.out.println(gridgrid.getChildren());
+		fieldX.setText(Integer.toString(gridX));
+		fieldY.setText(Integer.toString(gridY));
 
 	}
 
@@ -69,6 +76,7 @@ public class Controller {
         this.gridgrid.getColumnConstraints().clear();
         
         this.typeArray = new Cell[rows][columns];
+        this.dupeArray = new Cell[rows][columns];
 		
 		for (int i = 0; i <= rows-1; i++) {
 			gridgrid.getRowConstraints().add(new RowConstraints(minHeight, preferredHeight, maxHeight));
@@ -86,58 +94,51 @@ public class Controller {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				this.typeArray[i][j] = new Cell(i,j);
+				this.dupeArray[i][j] = new Cell(i,j);
 				gridgrid.add(this.typeArray[i][j],i,j);
-				this.typeArray[i][j].checkBoundaries(this.typeArray[i][j]);
 			}
 		}
 	}
 	
 	@FXML
-    public void coordCheck(MouseEvent e) {
-        //Node source = (Node)e.getSource() ;
-        //Integer colIndex = GridPane.getColumnIndex(source);
-        //Integer rowIndex = GridPane.getRowIndex(source);
-        //System.out.println(GridPane.getColumnIndex(source));
-		
-//		Node source = (Node)e.getSource();
-//        Integer colIndex = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
-//        Integer colRow = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
-//        System.out.println(colIndex + " : " + colRow);
-    }
-	
-	@FXML
 	public void resetButton() {
 		gridgrid.getChildren().clear();
-        setGrid(20,20);
-        setCells(20,20);
-        Simulation.setTime(0);
+        setGrid(gridX,gridY);
+        setCells(gridX,gridY);
 	}
 	
 	@FXML
 	public void checkButton() {
 		
-		Simulation.addTime();
 		
-		for (int i=0;i<20;i++) {
-			for (int j=0;j<20;j++) {
+		for (int i=0;i<gridX;i++) {
+			for (int j=0;j<gridY;j++) {
 				
-				if (typeArray[i][j].getType() == 1) {
-					System.out.println(typeArray[i][j].getTouchBounds());
-				}
+				Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 4);
+		
+				typeArray[i][j].setType(dupeArray[i][j].getType());
 				
-				Simulation.checkNeighbors(typeArray,typeArray[i][j],typeArray[i][j].getX(),typeArray[i][j].getY());
+				typeArray[i][j].setBushGrowth(dupeArray[i][j].getBushGrowth());
 				
-				System.out.print(Simulation.getTime());
-				
-				
-				//typeArray[i][j].setTime(typeArray[i][j].getTime()+1);
-				//System.out.println(typeArray[i][j].getTime());
 			}
 		}
 		
+		System.out.println(typeArray[2][2].getType());
 		
-		//Simulation.checkNeighbors(typeArray,typeArray[1][1],typeArray[1][1].getX(),typeArray[1][1].getY());
+//		for (int i=0;i<gridX;i++) {
+//			for (int j=0;j<gridY;j++) {
+//				
+//				typeArray[i][j].setType(dupeArray[i][j].getType());
+//				typeArray[i][j].setBushGrowth(dupeArray[i][j].getBushGrowth());
+//				
+//			}
+//		}
 		
+	}
+	
+	@FXML
+	private void closeButtonAction(){
+		Platform.exit();
 	}
 	
 }

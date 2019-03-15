@@ -13,436 +13,91 @@ public final class Simulation {
 	static int[][] checkListX = new int[3][3];
 	static int[][] checkListY = new int[3][3];
 	
+	static int[] checkAround(Cell[][] array, Cell currentCell, int stateNumber) {
+		
+		int[] stateArray = new int[stateNumber];
+		
+		for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+            	
+            	if (array[i][j].getY() == currentCell.getY() - 1 || array[i][j].getY() == currentCell.getY() + 1) {
+                    if ((array[i][j].getX() >= currentCell.getX() - 1) && (array[i][j].getX() <= currentCell.getX() + 1)) {
+                    	
+                    	for (int z = 0; z <= stateArray.length; z++) {
+                    		if (array[i][j].getType() == z) {
+                        		
+                    			stateArray[z]++;
+                    			
+                        	}
+                    	}
+                    	
+                    }
+            	}
+            	else if (array[i][j].getY() == currentCell.getY()) {
+            		if (array[i][j].getX() == currentCell.getX() - 1 || array[i][j].getX() == currentCell.getX() + 1) {
+            			
+            			for (int z = 0; z <= stateArray.length; z++) {
+                    		if (array[i][j].getType() == z) {
+                        		
+                    			stateArray[z]++;
+                    			
+                        	}
+                    	}
+            			
+            		}
+            	}
+            	
+            	
+            	
+            }
+		}
+        		
+    			return stateArray;
+    	
+	}
 	
-	public static int getTime() {
-		return time;
-	}
-
-
-
-	public static void setTime(int time) {
-		Simulation.time = time;
-	}
-	
-	public static void addTime() {
-		Simulation.time = time + 1;
-	}
-
-
-
-	static void checkNeighbors(Cell[][] array, Cell currentCell, int x, int y) {
-
-		// Sapling growth
-
-		if (counter < 3) {
-
-			if (array[x][y].getType() == 1) {	
-
-				// Testing BottomLeft
-
-				if (currentCell.getTouchBounds() == "BottomLeft") {
-
-					// Is Top cell empty or a sapling ?
-					if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Right cell empty or sapling ?
-						if (array[x+1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Right cell empty or sapling ?
-							if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-
-								currentCell.setType(2);
-								Types.changeColor(currentCell.getType(), currentCell);
-								counter=0;
-
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-
-				}
-
-				// Testing BottomRight
-
-				if (currentCell.getTouchBounds() == "BottomRight") {
-
-					// Is Top cell empty or a sapling ?
-					if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Left cell empty or sapling ?
-						if (array[x-1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Left cell empty or sapling ?
-							if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-
-								currentCell.setType(2);
-								Types.changeColor(currentCell.getType(), currentCell);
-								counter=0;
-
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-				}
-
-				// Testing TopLeft
-
-				if (currentCell.getTouchBounds() == "TopLeft") {
-
-					// Is Right cell empty or a sapling ?
-					if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Bottom Right cell empty or sapling ?
-						if (array[x+1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Down cell empty or sapling ?
-							if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-
-								currentCell.setType(2);
-								Types.changeColor(currentCell.getType(), currentCell);
-								counter=0;
-
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-				}
-
-				// Testing Top
-
-				if (currentCell.getTouchBounds() == "Top") {
-
-					// Is Right cell empty or a sapling ?
-					if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Bottom Right cell empty or sapling ?
-						if (array[x+1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Down cell empty or sapling ?
-							if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-								// Is Left Down cell empty or sapling ?
-								if (array[x-1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-									// Is Left cell empty or sapling ?
-									if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-
-										currentCell.setType(2);
-										Types.changeColor(currentCell.getType(), currentCell);
-										counter=0;
-
-									}
-									else {
-										counter++;
-									}
-								}
-								else {
-									counter++;
-								}
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-
-				}
-
-				// Testing Right
-
-				if (currentCell.getTouchBounds() == "Right") {
-
-					// Is Top cell empty or a sapling ?
-					if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Left cell empty or sapling ?
-						if (array[x-1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Left cell empty or sapling ?
-							if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-								// Is Bottom Left cell empty or sapling ?
-								if (array[x-1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-									// Is Bottom cell empty or sapling ?
-									if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-
-										currentCell.setType(2);
-										Types.changeColor(currentCell.getType(), currentCell);
-										counter=0;
-
-									}
-									else {
-										counter++;
-									}
-								}
-								else {
-									counter++;
-								}
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-
-				}
-
-				// Testing Left
-
-				if (currentCell.getTouchBounds() == "Left") {
-
-					// Is Top cell empty or a sapling ?
-					if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Right cell empty or sapling ?
-						if (array[x+1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Right cell empty or sapling ?
-							if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-								// Is Bottom Right cell empty or sapling ?
-								if (array[x+1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-									// Is Bottom cell empty or sapling ?
-									if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-
-										currentCell.setType(2);
-										Types.changeColor(currentCell.getType(), currentCell);
-										counter=0;
-
-									}
-									else {
-										counter++;
-									}
-								}
-								else {
-									counter++;
-								}
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-
-				}
-
-				// Testing Bottom
-
-				if (currentCell.getTouchBounds() == "Bottom") {
-
-					// Is Left cell empty or a sapling ?
-					if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Left Right cell empty or sapling ?
-						if (array[x-1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Top cell empty or sapling ?
-							if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-								// Is Top Right cell empty or sapling ?
-								if (array[x+1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-									// Is Right cell empty or sapling ?
-									if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-
-										currentCell.setType(2);
-										Types.changeColor(currentCell.getType(), currentCell);
-										counter=0;
-
-									}
-									else {
-										counter++;
-									}
-								}
-								else {
-									counter++;
-								}
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-
-				}
-
-				// Testing TopRight
-
-				if (currentCell.getTouchBounds() == "TopRight") {
-
-					// Is Left cell empty or a sapling ?
-					if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Bottom Left cell empty or sapling ?
-						if (array[x-1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Down cell empty or sapling ?
-							if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-
-								currentCell.setType(2);
-								Types.changeColor(currentCell.getType(), currentCell);
-								counter=0;
-
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-				}
-
-				// Testing Center
-
-				if (currentCell.getTouchBounds() == "Center") {
-
-					// Is Left cell empty or a sapling ?
-					if (array[x-1][y].getType() < 2 || currentCell.getTime() == 0) {
-						// Is Top Left cell empty or sapling ?
-						if (array[x-1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-							// Is Top cell empty or sapling ?
-							if (array[x][y-1].getType() < 2 || currentCell.getTime() == 0) {
-								// Is Top Right cell empty or sapling ?
-								if (array[x+1][y-1].getType() < 2 || currentCell.getTime() == 0) {
-									// Is Right cell empty or sapling ?
-									if (array[x+1][y].getType() < 2 || currentCell.getTime() == 0) {
-										// Is Bottom Right cell empty or sapling ?
-										if (array[x+1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-											// Is Bottom cell empty or sapling ?
-											if (array[x][y+1].getType() < 2 || currentCell.getTime() == 0) {
-												// Is Bottom Left cell empty or sapling ?
-												if (array[x-1][y+1].getType() < 2 || currentCell.getTime() == 0) {
-
-													currentCell.setType(2);
-													Types.changeColor(currentCell.getType(), currentCell);
-													counter=0;
-
-												}
-												else {
-
-												}
-											}
-										}
-										else {
-
-										}
-									}
-									else {
-
-									}
-								}
-								else {
-									counter++;
-								}
-							}
-							else {
-								counter++;
-							}
-						}
-						else {
-							counter++;
-						}
-					}
-					else {
-						counter++;
-					}
-				}
-			}
-			else
-			{
-				// Rien pour le moment
+	public static void stepGrowth(Cell[][] array, Cell currentCell,Cell dupeCell, int stateNumber) {
+		
+		int[] stateArray = checkAround(array, currentCell, stateNumber);
+		int emptyR = stateArray[0];
+		int saplingR = stateArray[1];
+		int bushR = stateArray[2];
+		int treeR = stateArray[3];
+		
+		// Sapling vers Bush
+		if (currentCell.getType() == 1) {
+			if (bushR <= 3 || treeR <= 3 ) {
+				dupeCell.setType(2);
 			}
 		}
-
-		// Sapling birth
-
-//		if (array[x][y].getType() == 0) {
-//			
-//			if (currentCell.getTouchBounds() == "Center") {
-//				
-//				for (int i=-1;i<2;i++) {
-//					for (int j=-1;j<2;j++) {
-//						if (array[x+i][y+j].getType() == 2) {
-//							counter++;
-//							
-//							if (counter >= 2) {
-//								System.out.print(counter);
-//								currentCell.setType(1);
-//								Types.changeColor(currentCell.getType(), currentCell);
-//								currentCell.setTime(time++);
-//								counter = 0;
-//							}
-//						}
-//						
-//					}
-//					
-//				}
-//					
-//			}
-//			
-//
-//		}
 		
 		// Bush to Tree
-		
-		if (array[x][y].getType() == 2) {
+		if (currentCell.getType() == 2) {
+			dupeCell.setType(2);
+			dupeCell.setBushGrowth(dupeCell.getBushGrowth()+1);
+			if (dupeCell.getBushGrowth() == 2) {
+				dupeCell.setType(3);
+				dupeCell.setBushGrowth(0);
+			}
 			
-			if (currentCell.getTouchBounds() == "Center") {
-				
-				
-				if (time == 3) {
-					currentCell.setType(3);
-					Types.changeColor(currentCell.getType(), currentCell);
-					
-				}
+		}
+		
+		// Naissance Sapling
+		if (currentCell.getType() == 0) {
+			if (treeR >= 2 || saplingR >= 3 || (treeR == 1 && bushR == 2)) {
+				dupeCell.setType(1);
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
+		// Trees will be trees
+		if (currentCell.getType() == 3) {
+			dupeCell.setType(3);
+		}
+	
+		
 	}
 }
+	
 
 
 
