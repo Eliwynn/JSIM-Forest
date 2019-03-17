@@ -1,17 +1,23 @@
 package controller;
 
 import controller.*;
+
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import application.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -31,13 +37,17 @@ public class Controller {
 	public Button butbut;
 	public AnchorPane anchor;
 	public GridPane gridgrid;
-	public TextField fieldX;
-	public TextField fieldY;
+	public TextField nbOfIterations;
+	public TextField iterationSpeed;
 	
 	public Cell[][] typeArray;
 	public Cell[][] dupeArray;
-	public int gridX = 10;
-	public int gridY = 10;
+	public int gridX = 40;
+	public int gridY = 40;
+	public Timer autoSim;
+	public int iterationCt;
+	public int v_nbOfIterations = 100;
+	public int v_iterationSpeed = 10;
 
 	@FXML
 	public void initialize() {
@@ -46,8 +56,8 @@ public class Controller {
 		setGrid(gridX,gridY);
 		setCells(gridX,gridY);
 		
-		fieldX.setText(Integer.toString(gridX));
-		fieldY.setText(Integer.toString(gridY));
+		nbOfIterations.setText(Integer.toString(v_nbOfIterations));
+		iterationSpeed.setText(Integer.toString(v_iterationSpeed));
 
 	}
 
@@ -101,6 +111,19 @@ public class Controller {
 	}
 	
 	@FXML
+	public void okGrid() {
+		gridgrid.getChildren().clear();
+        setGrid(gridX,gridY);
+        setCells(gridX,gridY);
+		System.out.println("Grille changée.");
+	}
+	
+	@FXML
+	public void okSpeed() {
+		System.out.println("Vitesse changée");
+	}
+	
+	@FXML
 	public void resetButton() {
 		gridgrid.getChildren().clear();
         setGrid(gridX,gridY);
@@ -108,33 +131,60 @@ public class Controller {
 	}
 	
 	@FXML
-	public void checkButton() {
-		
-		
+	public void stepButton() {
 		for (int i=0;i<gridX;i++) {
 			for (int j=0;j<gridY;j++) {
-				
 				Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 4);
-		
+			}
+		}
+		for (int i=0;i<gridX;i++) {
+			for (int j=0;j<gridY;j++) {
 				typeArray[i][j].setType(dupeArray[i][j].getType());
-				
 				typeArray[i][j].setBushGrowth(dupeArray[i][j].getBushGrowth());
-				
 			}
 		}
 		
-		System.out.println(typeArray[2][2].getType());
-		
-//		for (int i=0;i<gridX;i++) {
-//			for (int j=0;j<gridY;j++) {
-//				
-//				typeArray[i][j].setType(dupeArray[i][j].getType());
-//				typeArray[i][j].setBushGrowth(dupeArray[i][j].getBushGrowth());
-//				
-//			}
-//		}
-		
 	}
+	
+	@FXML
+	public void simuButton() {
+		this.autoSim = simulationTimer(Integer.parseInt(iterationSpeed.getCharacters().toString()));
+		autoSim.start();
+	}
+	
+	@FXML
+	public Timer simulationTimer(int iterationSec) {
+		this.iterationCt = 0;
+		ActionListener task = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iterationCt < Integer.parseInt(nbOfIterations.getCharacters().toString())) {
+					for (int i=0;i<gridX;i++) {
+						for (int j=0;j<gridY;j++) {
+							Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 4);
+						}
+					}
+					for (int i=0;i<gridX;i++) {
+						for (int j=0;j<gridY;j++) {
+							typeArray[i][j].setType(dupeArray[i][j].getType());
+							typeArray[i][j].setBushGrowth(dupeArray[i][j].getBushGrowth());
+						}
+					}
+					iterationCt++;
+				}
+				else {
+					autoSim.stop();
+				}
+			}
+		};
+		Timer timer = new Timer(1000/iterationSec, task);
+		return timer;
+	}
+	
+	@FXML
+    public void stopTimer(){
+        autoSim.stop();
+    }
 	
 	@FXML
 	private void closeButtonAction(){

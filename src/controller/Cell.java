@@ -21,7 +21,7 @@ public class Cell extends Pane {
 	private int type = 0;
 	private int bushGrowth = 0;
 	private String touchBounds = "Center";
-	private int gridLength = 10;
+	private int gridLength = 40;
 	
 	public String getTouchBounds() {
 		return touchBounds;

@@ -46,14 +46,10 @@ public final class Simulation {
             			
             		}
             	}
-            	
-            	
-            	
             }
 		}
         		
     			return stateArray;
-    	
 	}
 	
 	public static void stepGrowth(Cell[][] array, Cell currentCell,Cell dupeCell, int stateNumber) {
@@ -79,20 +75,23 @@ public final class Simulation {
 				dupeCell.setType(3);
 				dupeCell.setBushGrowth(0);
 			}
+			else if (currentCell.getType() == 3) {
+				dupeCell.setType(3);
+			}
 			
 		}
 		
 		// Naissance Sapling
 		if (currentCell.getType() == 0) {
-			if (treeR >= 2 || saplingR >= 3 || (treeR == 1 && bushR == 2)) {
+			if (treeR >= 2 || bushR >= 3 || (treeR == 1 && bushR == 2)) {
 				dupeCell.setType(1);
 			}
 		}
 		
-		// Trees will be trees
-		if (currentCell.getType() == 3) {
-			dupeCell.setType(3);
-		}
+//		// Trees will be trees
+//		if (currentCell.getType() == 3) {
+//			dupeCell.setType(3);
+//		}
 	
 		
 	}
