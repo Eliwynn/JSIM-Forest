@@ -134,7 +134,7 @@ public class Controller {
 	public void stepButton() {
 		for (int i=0;i<gridX;i++) {
 			for (int j=0;j<gridY;j++) {
-				Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 4);
+				Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 7);
 			}
 		}
 		for (int i=0;i<gridX;i++) {
@@ -161,7 +161,7 @@ public class Controller {
 				if (iterationCt < Integer.parseInt(nbOfIterations.getCharacters().toString())) {
 					for (int i=0;i<gridX;i++) {
 						for (int j=0;j<gridY;j++) {
-							Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 4);
+							Simulation.stepGrowth(typeArray, typeArray[i][j], dupeArray[i][j], 7);
 						}
 					}
 					for (int i=0;i<gridX;i++) {

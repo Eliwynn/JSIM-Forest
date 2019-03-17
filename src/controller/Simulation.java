@@ -59,6 +59,9 @@ public final class Simulation {
 		int saplingR = stateArray[1];
 		int bushR = stateArray[2];
 		int treeR = stateArray[3];
+		int fireR = stateArray[4];
+		int ashR = stateArray[5];
+		int infectionR = stateArray[6];
 		
 		// Sapling vers Bush
 		if (currentCell.getType() == 1) {
@@ -88,11 +91,44 @@ public final class Simulation {
 			}
 		}
 		
-//		// Trees will be trees
-//		if (currentCell.getType() == 3) {
-//			dupeCell.setType(3);
-//		}
-	
+		// Fire
+		
+		// Sapling in Fire
+		if (currentCell.getType() == 1) {
+			if (fireR >= 1) {
+				if (Math.random() <= 0.25) {
+					dupeCell.setType(4);
+				}
+			}
+		}
+		
+		// Bush in Fire
+		if (currentCell.getType() == 2) {
+			if (fireR >= 1) {
+				if (Math.random() <= 0.50) {
+					dupeCell.setType(4);
+				}
+			}
+		}
+		
+		// Tree in Fire
+		if (currentCell.getType() == 3) {
+			if (fireR >= 1) {
+				if (Math.random() <= 0.75) {
+					dupeCell.setType(4);
+				}
+			}
+		}
+		
+		// Fire to Ashes
+		if (currentCell.getType() == 4) {
+				dupeCell.setType(5);
+		}
+		
+		// Ashes to empty
+		if (currentCell.getType() == 5) {
+			dupeCell.setType(0);
+	}
 		
 	}
 }

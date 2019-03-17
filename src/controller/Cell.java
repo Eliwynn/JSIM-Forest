@@ -20,6 +20,7 @@ public class Cell extends Pane {
 	private int y;
 	private int type = 0;
 	private int bushGrowth = 0;
+	private int fireGrowth = 0;
 	private String touchBounds = "Center";
 	private int gridLength = 40;
 	
@@ -54,7 +55,7 @@ public class Cell extends Pane {
 	public void setType(int type) {
 		this.type = type;
 		
-		if (this.type > 3) {
+		if (this.type > 6) {
     		this.type = 0;
 		}
 		
@@ -67,6 +68,12 @@ public class Cell extends Pane {
 		break;
 		case 3:	this.setBackground(bg_darkgreen);
 		break;
+		case 4: this.setBackground(bg_orange);
+		break;
+		case 5: this.setBackground(bg_grey);
+		break;
+		case 6: this.setBackground(bg_purple);
+		break;
 		}
 	}
 	
@@ -78,12 +85,13 @@ public class Cell extends Pane {
 		this.bushGrowth = bushGrowth;
 	}
 
-
-
 	Background bg_white = new Background(new BackgroundFill(Color.WHITE, null, null));
 	Background bg_lightgreen = new Background(new BackgroundFill(Color.LIGHTGREEN, null, null));
 	Background bg_green = new Background(new BackgroundFill(Color.DARKSEAGREEN, null, null));
 	Background bg_darkgreen = new Background(new BackgroundFill(Color.DARKGREEN, null, null));
+	Background bg_orange = new Background(new BackgroundFill(Color.DARKORANGE, null, null));
+	Background bg_grey = new Background(new BackgroundFill(Color.GREY, null, null));
+	Background bg_purple = new Background(new BackgroundFill(Color.PURPLE, null, null));
 
 	public Cell(int posX, int posY) {
 		this.x = posX;
@@ -95,7 +103,7 @@ public class Cell extends Pane {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-            	if (type > 2) {
+            	if (type > 5) {
             		type = 0;
             		changeColor(type);
             		System.out.println("X : " + posX + " Y : " + posY + " Type : " + type);
@@ -118,6 +126,12 @@ public class Cell extends Pane {
 		case 2:	this.setBackground(bg_green);
 		break;
 		case 3:	this.setBackground(bg_darkgreen);
+		break;
+		case 4: this.setBackground(bg_orange);
+		break;
+		case 5: this.setBackground(bg_grey);
+		break;
+		case 6: this.setBackground(bg_purple);
 		break;
 		}
 	}

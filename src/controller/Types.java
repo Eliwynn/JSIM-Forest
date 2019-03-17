@@ -10,6 +10,9 @@ public class Types {
 	static Background bg_lightgreen = new Background(new BackgroundFill(Color.LIGHTGREEN, null, null));
 	static Background bg_green = new Background(new BackgroundFill(Color.DARKSEAGREEN, null, null));
 	static Background bg_darkgreen = new Background(new BackgroundFill(Color.DARKGREEN, null, null));
+	static Background bg_orange = new Background(new BackgroundFill(Color.DARKORANGE, null, null));
+	static Background bg_grey = new Background(new BackgroundFill(Color.GREY, null, null));
+	static Background bg_purple = new Background(new BackgroundFill(Color.PURPLE, null, null));
 
 	static void changeColor(int type, Cell cell) {
 		switch (type) {
